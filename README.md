@@ -5,7 +5,7 @@ High Order Component for using [nanoSQL](https://nanosql.io/) with React
 
 Easily lets you attach the rendering for your components to specific nanoSQL tables and queries.
 
-Automatically handles bindin and unbinding event listeners, triggering changes and returning them to your component.
+Automatically handles binding and unbinding event listeners, triggering changes and returning them to your component.
 
 ## Examples
 - [Super Minimal CodePen](https://codepen.io/clicksimply/pen/jYVdwr)
@@ -22,12 +22,12 @@ npm i nano-sql-react --save
 ## Usage
 
 ```ts
-import { bindNSQL } from "nano-sql-stream";
+import { bindNSQL } from "nano-sql-react";
 import { DatabaseEvent } from "nano-sql";
 import * as React from "react";
 
 /*
-Step 1: make your component as usual, just add the two additional props below.
+Step 1: make your component as usual, just add the two additional nSQL* props below.
 */
 export class MyComponent extends React.Component<{
     anotherProp: any; // all the normal props I need
@@ -81,3 +81,5 @@ export class ParentComponnt extends React.Component<{}, {}> {
 As an additional note, the onChange function will be called once on component mount to bring in any state from nanoSQL, then any subsequent onChange calls will be due to actual events from the database.
 
 You can check to see if it's the first mount call by doing this check in the onChange function: `event.notes === ["mount"]`.  That will return `false` for all standard queries from nanoSQL but `true` for the first call on the component mount.
+
+You can learn more about nanoSQL [here](https://nanosql.io/).
