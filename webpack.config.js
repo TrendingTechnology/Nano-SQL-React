@@ -6,7 +6,7 @@ module.exports = {
       umdNamedDefine: true
     },
     externals: {
-        "nano-sql": "nSQL",
-        "react": "React"
+        "nano-sql": "nano-sql",
+        "react": "dummyReact.js"
     },
   };
