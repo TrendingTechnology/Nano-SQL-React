@@ -6,7 +6,11 @@ export interface WithNSQLData {
     nSQLloading?: boolean;
 }
 
-export function bindNSQL<P extends WithNSQLData>(Comp: React.ComponentClass<P> | React.StatelessComponent<P>, tables: string[], onChange: (e: DatabaseEvent, complete: (any) => void) => void, store?: NanoSQLInstance): React.ComponentClass<P> {
+export function bindNSQL<P extends WithNSQLData>(Comp: React.ComponentClass<P> | React.StatelessComponent<P>, props: {
+    tables: string[], 
+    onChange: (e: DatabaseEvent, complete: (any) => void) => void, 
+    store?: NanoSQLInstance
+}): React.ComponentClass<P> {
     return class extends React.Component<P, {
         data: any;
         isLoading: boolean;
@@ -19,9 +23,9 @@ export function bindNSQL<P extends WithNSQLData>(Comp: React.ComponentClass<P> |
         }
 
         public componentWillMount() {
-            const prevTable: any = (store || nSQL()).sTable;
-            tables.forEach((table) => {
-                (store || nSQL()).table(table).on("change", this.updateState);
+            const prevTable: any = (props.store || nSQL()).sTable;
+            props.tables.forEach((table) => {
+                (props.store || nSQL()).table(table).on("change", this.updateState);
                 this.updateState({
                     table: table,
                     query: {
@@ -33,27 +37,27 @@ export function bindNSQL<P extends WithNSQLData>(Comp: React.ComponentClass<P> |
                         comments: []
                     },
                     time: Date.now(),
-                    notes: [],
+                    notes: ["mount"],
                     result: [],
                     types: ["change"],
                     actionOrView: "",
                     affectedRows: []
                 });
             });
-            (store || nSQL()).table(prevTable);
+            (props.store || nSQL()).table(prevTable);
         }
 
         public componentWillUnmount() {
-            const prevTable: any = (store || nSQL()).sTable;
-            tables.forEach((table) => {
-                (store || nSQL()).table(table).off("change", this.updateState);
+            const prevTable: any = (props.store || nSQL()).sTable;
+            props.tables.forEach((table) => {
+                (props.store || nSQL()).table(table).off("change", this.updateState);
             });
-            (store || nSQL()).table(prevTable);
+            (props.store || nSQL()).table(prevTable);
         }
 
         public updateState(e: DatabaseEvent) {
             this.setState({isLoading: true}, () => {
-                onChange(e, (data) => {
+                props.onChange(e, (data) => {
                     this.setState({isLoading: false, data: data});
                 });
             })

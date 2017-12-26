@@ -5,4 +5,8 @@ export interface WithNSQLData {
     nSQLdata?: any;
     nSQLloading?: boolean;
 }
-export declare function bindNSQL<P extends WithNSQLData>(Comp: React.ComponentClass<P> | React.StatelessComponent<P>, tables: string[], onChange: (e: DatabaseEvent, complete: (any) => void) => void, store?: NanoSQLInstance): React.ComponentClass<P>;
+export declare function bindNSQL<P extends WithNSQLData>(Comp: React.ComponentClass<P> | React.StatelessComponent<P>, props: {
+    tables: string[];
+    onChange: (e: DatabaseEvent, complete: (any) => void) => void;
+    store?: NanoSQLInstance;
+}): React.ComponentClass<P>;

@@ -20,7 +20,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 var nano_sql_1 = require("nano-sql");
-function bindNSQL(Comp, tables, onChange, store) {
+function bindNSQL(Comp, props) {
     return (function (_super) {
         __extends(class_1, _super);
         function class_1(p) {
@@ -31,9 +31,9 @@ function bindNSQL(Comp, tables, onChange, store) {
         }
         class_1.prototype.componentWillMount = function () {
             var _this = this;
-            var prevTable = (store || nano_sql_1.nSQL()).sTable;
-            tables.forEach(function (table) {
-                (store || nano_sql_1.nSQL()).table(table).on("change", _this.updateState);
+            var prevTable = (props.store || nano_sql_1.nSQL()).sTable;
+            props.tables.forEach(function (table) {
+                (props.store || nano_sql_1.nSQL()).table(table).on("change", _this.updateState);
                 _this.updateState({
                     table: table,
                     query: {
@@ -45,27 +45,27 @@ function bindNSQL(Comp, tables, onChange, store) {
                         comments: []
                     },
                     time: Date.now(),
-                    notes: [],
+                    notes: ["mount"],
                     result: [],
                     types: ["change"],
                     actionOrView: "",
                     affectedRows: []
                 });
             });
-            (store || nano_sql_1.nSQL()).table(prevTable);
+            (props.store || nano_sql_1.nSQL()).table(prevTable);
         };
         class_1.prototype.componentWillUnmount = function () {
             var _this = this;
-            var prevTable = (store || nano_sql_1.nSQL()).sTable;
-            tables.forEach(function (table) {
-                (store || nano_sql_1.nSQL()).table(table).off("change", _this.updateState);
+            var prevTable = (props.store || nano_sql_1.nSQL()).sTable;
+            props.tables.forEach(function (table) {
+                (props.store || nano_sql_1.nSQL()).table(table).off("change", _this.updateState);
             });
-            (store || nano_sql_1.nSQL()).table(prevTable);
+            (props.store || nano_sql_1.nSQL()).table(prevTable);
         };
         class_1.prototype.updateState = function (e) {
             var _this = this;
             this.setState({ isLoading: true }, function () {
-                onChange(e, function (data) {
+                props.onChange(e, function (data) {
                     _this.setState({ isLoading: false, data: data });
                 });
             });
