@@ -5,6 +5,10 @@ High Order Component for using [nanoSQL](https://nanosql.io/) with React
 
 Easily lets you attach the rendering for your components to specific nanoSQL tables and queries.
 
+Automatically handles bindin and unbinding event listeners, triggering changes and returning them to your component.
+
+Check out this [simple todo app](https://www.nanosql.io/react-todo/) for a full working example.
+
 Includes Typescript typings but still plays nice with Babel and ES5 projects.
 
 ## Installation
@@ -53,7 +57,7 @@ export class ParentComponnt extends React.Component<{}, {}> {
                     nSQL("table").query("select").exec().then((rows) => {
                         if (!rows.length) return;
                         // whatever you pass into complete() will become this.props.nSQLdata in the child component
-                        complete(rows[0]);
+                        complete({message: rows[0].message});
                     });
                 },
                 // optional, the NanoSQLInstance to use.  Uses global nSQL by default otherwise.

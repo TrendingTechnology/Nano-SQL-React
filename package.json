@@ -11,13 +11,13 @@
     "type": "git",
     "url": "git+https://github.com/ClickSimply/Nano-SQL-React.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["react", "reactjs", "live", "edit", "flux", "redux", "datastore", "immutable", "nano-sql", "rdbms", "nosql"],
+  "author": "Scott Lott <me@ScottLott.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ClickSimply/Nano-SQL-React/issues"
   },
-  "homepage": "https://github.com/ClickSimply/Nano-SQL-React#readme",
+  "homepage": "https://nanosql.io",
   "devDependencies": {
     "@types/react": "^16.0.31",
     "typescript": "^2.6.2",
