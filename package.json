@@ -1,0 +1,29 @@
+{
+  "name": "nano-sql-react",
+  "version": "1.0.0",
+  "description": "High Order Component for using nanoSQL with React",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClickSimply/Nano-SQL-React.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ClickSimply/Nano-SQL-React/issues"
+  },
+  "homepage": "https://github.com/ClickSimply/Nano-SQL-React#readme",
+  "devDependencies": {
+    "@types/react": "^16.0.31",
+    "typescript": "^2.6.2"
+  },
+  "dependencies": {
+    "nano-sql": "^1.1.2",
+    "react": "^16.2.0"
+  }
+}
