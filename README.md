@@ -7,7 +7,9 @@ Easily lets you attach the rendering for your components to specific nanoSQL tab
 
 Automatically handles bindin and unbinding event listeners, triggering changes and returning them to your component.
 
-Check out this [simple todo app](https://www.nanosql.io/react-todo/) for a full working example.
+## Examples
+- [Super Minimal CodePen](https://codepen.io/clicksimply/pen/jYVdwr)
+- [Complete Todo App](https://www.nanosql.io/react-todo/)
 
 Includes Typescript typings but still plays nice with Babel and ES5 projects.
 
@@ -28,13 +30,15 @@ import * as React from "react";
 Step 1: make your component as usual, just add the two additional props below.
 */
 export class MyComponent extends React.Component<{
-    nSQLdata: any; // optional prop holding the data from nSQL, you can type cast it as you please.
-    nSQLloading: boolean; // optional prop holding wether the nSQL data is in a loading state or not.
-    anotherProp: any; // any other props you need...
+    anotherProp: any; // all the normal props I need
+    nSQLdata: any; // holds data from nanoSQL
+    nSQLloading: boolean; // if a query is pending
 }, {}> {
 
     render() {
-        return this.props.nSQLloading ? "Loading..." : this.props.nSQLdata.message + this.props.anotherProp;
+        return this.props.nSQLloading ? 
+        "Loading..." : 
+        this.props.nSQLdata.message + this.props.anotherProp;
     }
 }
 
@@ -49,24 +53,27 @@ export class ParentComponnt extends React.Component<{}, {}> {
 
     constructor(p) {
         super(p);
-        this.messageComponent = bindNSQL(MyComponent /* Your base component */, {
-                // Tables to listen for changes on 
-                tables: ["tables", "to", "listen"], 
-                // function is called on each change, returns desired data.
-                onChange: (event: DatabaseEvent, complete: (data: any) => void) => { 
-                    nSQL("table").query("select").exec().then((rows) => {
-                        if (!rows.length) return;
-                        // whatever you pass into complete() will become this.props.nSQLdata in the child component
-                        complete({message: rows[0].message});
-                    });
-                },
-                // optional, the NanoSQLInstance to use.  Uses global nSQL by default otherwise.
-                store: myNSQLInstance              
-            });
-        )
+        this.messageComponent = bindNSQL(MyComponent, {
+            // Tables to listen for changes on 
+            tables: ["tables", "to", "listen"], 
+            // function is called on each change
+            onChange: (event: DatabaseEvent, complete: (data: any) => void) => { 
+                nSQL("table").query("select").exec().then((rows) => {
+                    if (!rows.length) return;
+                    // whatever you pass into complete() 
+                    // will become this.props.nSQLdata in the child component
+                    complete({message: rows[0].message});
+                });
+            },
+            // Optional, the NanoSQLInstance to use. 
+            // Uses global nSQL by default otherwise.
+            store: myNSQLInstance              
+        });
     }
 
-    return <this.messageComponent anotherProp={"something else"}>;
+    render() {
+        return <this.messageComponent anotherProp={"something else"} />;
+    }
 }
 
 ```
