@@ -7,11 +7,6 @@ module.exports = {
     },
     externals: {
         "nano-sql": "nano-sql",
-        react: {
-            root: 'React',
-            commonjs2: 'react',
-            commonjs: 'react',
-            amd: 'react'
-        },
+        react: "./dummyReact.js",
     },
   };
