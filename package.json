@@ -1,6 +1,6 @@
 {
   "name": "nano-sql-react",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "High Order Component for using nanoSQL with React",
   "main": "index.js",
   "typings": "index.d.ts",

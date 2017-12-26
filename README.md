@@ -30,7 +30,9 @@ import * as React from "react";
 Step 1: make your component as usual, just add the two additional nSQL* props below.
 */
 export class MyComponent extends React.Component<{
-    anotherProp: any; // all the normal props I need
+    some: any;
+    other: any;
+    props: any; // any number of props you need
     nSQLdata: any; // holds data from nanoSQL
     nSQLloading: boolean; // if a query is pending
 }, {}> {
@@ -38,7 +40,7 @@ export class MyComponent extends React.Component<{
     render() {
         return this.props.nSQLloading ? 
         "Loading..." : 
-        this.props.nSQLdata.message + this.props.anotherProp;
+        this.props.nSQLdata.message + this.props.some;
     }
 }
 
@@ -72,7 +74,8 @@ export class ParentComponnt extends React.Component<{}, {}> {
     }
 
     render() {
-        return <this.messageComponent anotherProp={"something else"} />;
+        // You can pass in your other props while you're at it.
+        return <this.messageComponent some={"1"} other={"2"} props={"3"} />;
     }
 }
 

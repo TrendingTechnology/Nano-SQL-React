@@ -1,3 +1,6 @@
+## [1.2.1]
+- Might have changed the README again.
+
 ## [1.2.0]
 - Fixed readme typos.
 
