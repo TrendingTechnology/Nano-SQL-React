@@ -25,7 +25,7 @@ function bindNSQL(Comp, props) {
         __extends(class_1, _super);
         function class_1(p) {
             var _this = _super.call(this, p) || this;
-            _this.state = { data: {}, isLoading: true };
+            _this.state = { data: undefined, isLoading: true };
             _this.updateState = _this.updateState.bind(_this);
             return _this;
         }

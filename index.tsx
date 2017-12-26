@@ -18,7 +18,7 @@ export function bindNSQL<P extends WithNSQLData>(Comp: React.ComponentClass<P> |
 
         constructor(p) {
             super(p);
-            this.state = {data: {}, isLoading: true};
+            this.state = {data: undefined, isLoading: true};
             this.updateState = this.updateState.bind(this);
         }
 
