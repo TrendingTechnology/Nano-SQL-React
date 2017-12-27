@@ -20,16 +20,23 @@ export function bindNSQL<P extends WithNSQLData>(Comp: React.ComponentClass<P> |
             super(p);
             this.state = {data: undefined, isLoading: true};
             this.updateState = this.updateState.bind(this);
+            if (!props.tables || !props.tables.length) {
+                throw Error("Need tables for nanoSQL HOC!");
+            }
+            if (!props.onChange) {
+                throw Error("Need onChange for nanoSQL HOC!");
+            }
         }
 
         public componentWillMount() {
             const prevTable: any = (props.store || nSQL()).sTable;
-            props.tables.forEach((table) => {
-                (props.store || nSQL()).table(table).on("change", this.updateState);
+            let k = props.tables.length;
+            while(k--) {
+                (props.store || nSQL()).table(props.tables[k]).on("change", this.updateState);
                 this.updateState({
-                    table: table,
+                    table: props.tables[k],
                     query: {
-                        table: table,
+                        table: props.tables[k],
                         action: null,
                         actionArgs: null,
                         state: "complete",
@@ -43,15 +50,16 @@ export function bindNSQL<P extends WithNSQLData>(Comp: React.ComponentClass<P> |
                     actionOrView: "",
                     affectedRows: []
                 });
-            });
+            }
             (props.store || nSQL()).table(prevTable);
         }
 
         public componentWillUnmount() {
             const prevTable: any = (props.store || nSQL()).sTable;
-            props.tables.forEach((table) => {
-                (props.store || nSQL()).table(table).off("change", this.updateState);
-            });
+            let k = props.tables.length;
+            while(k--) {
+                (props.store || nSQL()).table(props.tables[k]).off("change", this.updateState);
+            }
             (props.store || nSQL()).table(prevTable);
         }
 

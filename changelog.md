@@ -1,3 +1,8 @@
+## [1.2.2]
+- README updates.
+- Added error checking.
+- Faster looping.
+
 ## [1.2.1]
 - Might have changed the README again.
 

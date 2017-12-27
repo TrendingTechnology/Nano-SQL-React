@@ -27,17 +27,23 @@ function bindNSQL(Comp, props) {
             var _this = _super.call(this, p) || this;
             _this.state = { data: undefined, isLoading: true };
             _this.updateState = _this.updateState.bind(_this);
+            if (!props.tables || !props.tables.length) {
+                throw Error("Need tables for nanoSQL HOC!");
+            }
+            if (!props.onChange) {
+                throw Error("Need onChange for nanoSQL HOC!");
+            }
             return _this;
         }
         class_1.prototype.componentWillMount = function () {
-            var _this = this;
             var prevTable = (props.store || nano_sql_1.nSQL()).sTable;
-            props.tables.forEach(function (table) {
-                (props.store || nano_sql_1.nSQL()).table(table).on("change", _this.updateState);
-                _this.updateState({
-                    table: table,
+            var k = props.tables.length;
+            while (k--) {
+                (props.store || nano_sql_1.nSQL()).table(props.tables[k]).on("change", this.updateState);
+                this.updateState({
+                    table: props.tables[k],
                     query: {
-                        table: table,
+                        table: props.tables[k],
                         action: null,
                         actionArgs: null,
                         state: "complete",
@@ -51,15 +57,15 @@ function bindNSQL(Comp, props) {
                     actionOrView: "",
                     affectedRows: []
                 });
-            });
+            }
             (props.store || nano_sql_1.nSQL()).table(prevTable);
         };
         class_1.prototype.componentWillUnmount = function () {
-            var _this = this;
             var prevTable = (props.store || nano_sql_1.nSQL()).sTable;
-            props.tables.forEach(function (table) {
-                (props.store || nano_sql_1.nSQL()).table(table).off("change", _this.updateState);
-            });
+            var k = props.tables.length;
+            while (k--) {
+                (props.store || nano_sql_1.nSQL()).table(props.tables[k]).off("change", this.updateState);
+            }
             (props.store || nano_sql_1.nSQL()).table(prevTable);
         };
         class_1.prototype.updateState = function (e) {

@@ -3,7 +3,9 @@ High Order Component for using [nanoSQL](https://nanosql.io/) with React
 
 <img src="https://raw.githubusercontent.com/ClickSimply/Nano-SQL/master/logo.png" alt="nanoSQL Logo">
 
-Easily lets you attach the rendering for your components to specific nanoSQL tables and queries.
+NanoSQL is a powerful database/datastore with tons of RDBMS features, Undo/Redo, and optional built in persistence to Indexed DB, WebSQL or LocalStorage.
+
+This module lets you easily attach the rendering for your components to specific nanoSQL tables and queries.
 
 Automatically handles binding and unbinding event listeners, triggering changes and returning them to your component.
 
