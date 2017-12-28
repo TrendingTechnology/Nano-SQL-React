@@ -1,3 +1,6 @@
+## [1.2.3]
+- Bumped nanosql dependency version.
+
 ## [1.2.2]
 - README updates.
 - Added error checking.
