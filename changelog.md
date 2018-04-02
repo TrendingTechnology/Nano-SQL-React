@@ -1,3 +1,6 @@
+## [1.2.5]
+- Updated react typo
+
 ## [1.2.3]
 - Bumped nanosql dependency version.
 
