@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "React";
 import { NanoSQLInstance, nSQL, DatabaseEvent } from "nano-sql";
 
 export interface WithNSQLData {
