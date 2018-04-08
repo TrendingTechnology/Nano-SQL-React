@@ -32,7 +32,7 @@ export function bindNSQL<P extends WithNSQLData>(Comp: NSQLComponent<P>, props: 
         }
 
         public componentWillMount() {
-            if (props.tables && props.tables.length) {
+            if (props && props.tables && props.tables.length) {
                 this.tables = props.tables;
             } else if (Comp.tables) {
                 this.tables = Comp.tables();
@@ -40,7 +40,7 @@ export function bindNSQL<P extends WithNSQLData>(Comp: NSQLComponent<P>, props: 
                 throw Error("Need tables for nanoSQL HOC!");
             }
             
-            if (props.onChange) {
+            if (props && props.onChange) {
                 this.onChange = props.onChange;
             } else if (Comp.onChange) {
                 this.onChange = Comp.onChange;

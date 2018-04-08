@@ -30,7 +30,7 @@ function bindNSQL(Comp, props) {
             return _this;
         }
         class_1.prototype.componentWillMount = function () {
-            if (props.tables && props.tables.length) {
+            if (props && props.tables && props.tables.length) {
                 this.tables = props.tables;
             }
             else if (Comp.tables) {
@@ -39,7 +39,7 @@ function bindNSQL(Comp, props) {
             else {
                 throw Error("Need tables for nanoSQL HOC!");
             }
-            if (props.onChange) {
+            if (props && props.onChange) {
                 this.onChange = props.onChange;
             }
             else if (Comp.onChange) {
