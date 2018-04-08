@@ -48,7 +48,7 @@ export function bindNSQL<P extends WithNSQLData>(Comp: NSQLComponent<P>, props: 
                 throw Error("Need tables for nanoSQL HOC!");
             }
 
-            if (props.store) {
+            if (props && props.store) {
                 this.store = props.store;
             } else {
                 this.store = nSQL();

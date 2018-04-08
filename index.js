@@ -48,7 +48,7 @@ function bindNSQL(Comp, props) {
             else {
                 throw Error("Need tables for nanoSQL HOC!");
             }
-            if (props.store) {
+            if (props && props.store) {
                 this.store = props.store;
             }
             else {
