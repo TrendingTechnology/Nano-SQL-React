@@ -1,6 +1,6 @@
 {
   "name": "nano-sql-react",
-  "version": "1.2.6",
+  "version": "1.3.0",
   "description": "High Order Component for using nanoSQL with React",
   "main": "index.js",
   "typings": "index.d.ts",
@@ -11,7 +11,19 @@
     "type": "git",
     "url": "git+https://github.com/ClickSimply/Nano-SQL-React.git"
   },
-  "keywords": ["react", "reactjs", "live", "edit", "flux", "redux", "datastore", "immutable", "nano-sql", "rdbms", "nosql"],
+  "keywords": [
+    "react",
+    "reactjs",
+    "live",
+    "edit",
+    "flux",
+    "redux",
+    "datastore",
+    "immutable",
+    "nano-sql",
+    "rdbms",
+    "nosql"
+  ],
   "author": "Scott Lott <me@ScottLott.com>",
   "license": "MIT",
   "bugs": {
@@ -19,12 +31,12 @@
   },
   "homepage": "https://nanosql.io",
   "devDependencies": {
-    "@types/react": "^16.0.31",
-    "typescript": "^2.6.2",
-    "webpack": "^3.10.0"
+    "@types/react": "^16.3.5",
+    "typescript": "^2.8.1",
+    "webpack": "^4.5.0"
   },
   "dependencies": {
-    "nano-sql": "^1.1.5",
-    "react": "^16.2.0"
+    "nano-sql": "^1.4.2",
+    "react": "^16.3.1"
   }
 }

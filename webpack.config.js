@@ -5,5 +5,5 @@ module.exports = {
       libraryTarget: 'umd',
       umdNamedDefine: true
     },
-    externals: ["React", "nano-sql"],
+    externals: ["react", "nano-sql"],
   };

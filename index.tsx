@@ -1,4 +1,4 @@
-import * as React from "React";
+import * as React from "react";
 import { NanoSQLInstance, nSQL, DatabaseEvent } from "nano-sql";
 
 export interface WithNSQLData {
@@ -6,9 +6,14 @@ export interface WithNSQLData {
     nSQLloading?: boolean;
 }
 
-export function bindNSQL<P extends WithNSQLData>(Comp: React.ComponentClass<P> | React.StatelessComponent<P>, props: {
-    tables: string[], 
-    onChange: (e: DatabaseEvent, complete: (any) => void) => void, 
+export interface NSQLComponent<T> extends React.ComponentClass<T> {
+    onChange?:(e: DatabaseEvent, complete: (any) => void) => void;
+    tables?:() => string[];
+}
+
+export function bindNSQL<P extends WithNSQLData>(Comp: NSQLComponent<P>, props: {
+    tables?: string[], 
+    onChange?: (e: DatabaseEvent, complete: (any) => void) => void, 
     store?: NanoSQLInstance
 }): React.ComponentClass<P> {
     return class extends React.Component<P, {
@@ -16,27 +21,47 @@ export function bindNSQL<P extends WithNSQLData>(Comp: React.ComponentClass<P> |
         isLoading: boolean;
     }> {
 
+        public tables: string[];
+        public onChange: (e: DatabaseEvent, complete: (any) => void) => void;
+        public store: NanoSQLInstance;
+
         constructor(p) {
             super(p);
             this.state = {data: undefined, isLoading: true};
             this.updateState = this.updateState.bind(this);
-            if (!props.tables || !props.tables.length) {
-                throw Error("Need tables for nanoSQL HOC!");
-            }
-            if (!props.onChange) {
-                throw Error("Need onChange for nanoSQL HOC!");
-            }
         }
 
         public componentWillMount() {
-            const prevTable: any = (props.store || nSQL()).sTable;
-            let k = props.tables.length;
+            if (props.tables && props.tables.length) {
+                this.tables = props.tables;
+            } else if (Comp.tables) {
+                this.tables = Comp.tables();
+            } else {
+                throw Error("Need tables for nanoSQL HOC!");
+            }
+            
+            if (props.onChange) {
+                this.onChange = props.onChange;
+            } else if (Comp.onChange) {
+                this.onChange = Comp.onChange;
+            } else {
+                throw Error("Need tables for nanoSQL HOC!");
+            }
+
+            if (props.store) {
+                this.store = props.store;
+            } else {
+                this.store = nSQL();
+            }
+
+            const prevTable: any = this.store.sTable;
+            let k = this.tables.length;
             while(k--) {
-                (props.store || nSQL()).table(props.tables[k]).on("change", this.updateState);
+                this.store.table(this.tables[k]).on("change", this.updateState);
                 this.updateState({
-                    table: props.tables[k],
+                    table: this.tables[k],
                     query: {
-                        table: props.tables[k],
+                        table: this.tables[k],
                         action: null,
                         actionArgs: null,
                         state: "complete",
@@ -51,21 +76,21 @@ export function bindNSQL<P extends WithNSQLData>(Comp: React.ComponentClass<P> |
                     affectedRows: []
                 });
             }
-            (props.store || nSQL()).table(prevTable);
+            this.store.table(prevTable);
         }
 
         public componentWillUnmount() {
-            const prevTable: any = (props.store || nSQL()).sTable;
-            let k = props.tables.length;
+            const prevTable: any = this.store.sTable;
+            let k = this.tables.length;
             while(k--) {
-                (props.store || nSQL()).table(props.tables[k]).off("change", this.updateState);
+                this.store.table(this.tables[k]).off("change", this.updateState);
             }
-            (props.store || nSQL()).table(prevTable);
+            this.store.table(prevTable);
         }
 
         public updateState(e: DatabaseEvent) {
             this.setState({isLoading: true}, () => {
-                props.onChange(e, (data) => {
+                this.onChange(e, (data) => {
                     this.setState({isLoading: false, data: data});
                 });
             })

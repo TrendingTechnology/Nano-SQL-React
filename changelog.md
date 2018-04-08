@@ -1,3 +1,7 @@
+## [1.3.0]
+- Streamlined API, still backwards compatible.
+- Updated dependcies
+
 ## [1.2.6]
 - Updated react typo
 
