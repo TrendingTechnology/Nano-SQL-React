@@ -1,3 +1,7 @@
+## [1.3.4]
+- Updated react import.
+- Moved React and NanoSQL to peer dependency.
+
 ## [1.3.0]
 - Streamlined API, still backwards compatible.
 - Updated dependcies
