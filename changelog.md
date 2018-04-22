@@ -1,3 +1,6 @@
+## [1.4.0]
+- Components now wait for nanosql to connect to do initial render.
+
 ## [1.3.4]
 - Updated react import.
 - Moved React and NanoSQL to peer dependency.

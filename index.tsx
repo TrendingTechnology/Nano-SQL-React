@@ -37,7 +37,7 @@ export function bindNSQL<P extends WithNSQLData>(Comp: NSQLComponent<P>, props: 
             } else if (Comp.tables) {
                 this.tables = Comp.tables();
             } else {
-                throw Error("Need tables for nanoSQL HOC!");
+                throw Error("nSQL React: Need tables for nanoSQL HOC!");
             }
             
             if (props && props.onChange) {
@@ -45,7 +45,7 @@ export function bindNSQL<P extends WithNSQLData>(Comp: NSQLComponent<P>, props: 
             } else if (Comp.onChange) {
                 this.onChange = Comp.onChange;
             } else {
-                throw Error("Need tables for nanoSQL HOC!");
+                throw Error("nSQL React: Need tables for nanoSQL HOC!");
             }
 
             if (props && props.store) {
@@ -54,29 +54,31 @@ export function bindNSQL<P extends WithNSQLData>(Comp: NSQLComponent<P>, props: 
                 this.store = nSQL();
             }
 
-            const prevTable: any = this.store.sTable;
-            let k = this.tables.length;
-            while(k--) {
-                this.store.table(this.tables[k]).on("change", this.updateState);
-                this.updateState({
-                    table: this.tables[k],
-                    query: {
+            this.store.onConnected(() => {
+                const prevTable: any = this.store.sTable;
+                let k = this.tables.length;
+                while(k--) {
+                    this.store.table(this.tables[k]).on("change", this.updateState);
+                    this.updateState({
                         table: this.tables[k],
-                        action: null,
-                        actionArgs: null,
-                        state: "complete",
+                        query: {
+                            table: this.tables[k],
+                            action: null,
+                            actionArgs: null,
+                            state: "complete",
+                            result: [],
+                            comments: []
+                        },
+                        time: Date.now(),
+                        notes: ["mount"],
                         result: [],
-                        comments: []
-                    },
-                    time: Date.now(),
-                    notes: ["mount"],
-                    result: [],
-                    types: ["change"],
-                    actionOrView: "",
-                    affectedRows: []
-                });
-            }
-            this.store.table(prevTable);
+                        types: ["change"],
+                        actionOrView: "",
+                        affectedRows: []
+                    });
+                }
+                this.store.table(prevTable);
+            });
         }
 
         public componentWillUnmount() {

@@ -30,6 +30,7 @@ function bindNSQL(Comp, props) {
             return _this;
         }
         class_1.prototype.componentWillMount = function () {
+            var _this = this;
             if (props && props.tables && props.tables.length) {
                 this.tables = props.tables;
             }
@@ -37,7 +38,7 @@ function bindNSQL(Comp, props) {
                 this.tables = Comp.tables();
             }
             else {
-                throw Error("Need tables for nanoSQL HOC!");
+                throw Error("nSQL React: Need tables for nanoSQL HOC!");
             }
             if (props && props.onChange) {
                 this.onChange = props.onChange;
@@ -46,7 +47,7 @@ function bindNSQL(Comp, props) {
                 this.onChange = Comp.onChange;
             }
             else {
-                throw Error("Need tables for nanoSQL HOC!");
+                throw Error("nSQL React: Need tables for nanoSQL HOC!");
             }
             if (props && props.store) {
                 this.store = props.store;
@@ -54,29 +55,31 @@ function bindNSQL(Comp, props) {
             else {
                 this.store = nano_sql_1.nSQL();
             }
-            var prevTable = this.store.sTable;
-            var k = this.tables.length;
-            while (k--) {
-                this.store.table(this.tables[k]).on("change", this.updateState);
-                this.updateState({
-                    table: this.tables[k],
-                    query: {
-                        table: this.tables[k],
-                        action: null,
-                        actionArgs: null,
-                        state: "complete",
+            this.store.onConnected(function () {
+                var prevTable = _this.store.sTable;
+                var k = _this.tables.length;
+                while (k--) {
+                    _this.store.table(_this.tables[k]).on("change", _this.updateState);
+                    _this.updateState({
+                        table: _this.tables[k],
+                        query: {
+                            table: _this.tables[k],
+                            action: null,
+                            actionArgs: null,
+                            state: "complete",
+                            result: [],
+                            comments: []
+                        },
+                        time: Date.now(),
+                        notes: ["mount"],
                         result: [],
-                        comments: []
-                    },
-                    time: Date.now(),
-                    notes: ["mount"],
-                    result: [],
-                    types: ["change"],
-                    actionOrView: "",
-                    affectedRows: []
-                });
-            }
-            this.store.table(prevTable);
+                        types: ["change"],
+                        actionOrView: "",
+                        affectedRows: []
+                    });
+                }
+                _this.store.table(prevTable);
+            });
         };
         class_1.prototype.componentWillUnmount = function () {
             var prevTable = this.store.sTable;
